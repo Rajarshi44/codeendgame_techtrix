@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import SpiderGwenModel from './SpiderGwenModel'
+import GridScan from './GridScan'
 
 interface IntroScreenProps {
   onEnter: () => void
@@ -24,16 +25,28 @@ export default function IntroScreen({ onEnter }: IntroScreenProps) {
           initial={{ opacity: 1 }}
           exit={{ y: '-100vh', opacity: 0 }}
           transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-          className="fixed inset-0 z-[999] flex flex-col items-center justify-center overflow-hidden bg-[#050505]"
+          className="fixed inset-0 z-[999] flex flex-col items-center justify-center overflow-hidden bg-[#100b1a]"
         >
-          {/* Subtle red vignette */}
-          <div className="absolute inset-0 pointer-events-none" style={{
-            background: 'radial-gradient(circle at center, transparent 30%, rgba(230, 25, 25, 0.08) 100%)'
-          }} />
+          {/* GridScan WebGL Background */}
+          <div className="absolute inset-0 z-0">
+            <GridScan
+              sensitivity={0.55}
+              lineThickness={1}
+              linesColor="#FF0055" // Pink grid lines
+              gridScale={0.1}
+              scanColor="#FF9FFC"
+              scanOpacity={0.4}
+              enablePost={true}
+              bloomIntensity={0.6}
+              chromaticAberration={0.003} // Blue/red split
+              noiseIntensity={0.01}
+              className="opacity-60" // Tone down the grid slightly so Spider-Gwen stands out
+            />
+          </div>
 
           {/* 3D Model Layer */}
-          <div className="absolute inset-0 z-0">
-            <SpiderGwenModel 
+          <div className="absolute inset-0 z-[1]">
+            <SpiderGwenModel
               animationSequence={[
                 'Armature|hero_spidergwen01_S03@succ_cam',
                 'Armature|hero_spidergwen01_S03@skill02',
@@ -43,21 +56,21 @@ export default function IntroScreen({ onEnter }: IntroScreenProps) {
               ]}
               playCounts={[1, 1, 1, 1]}
               animationSpeed={0.5}
-              scale={2.5} 
-              position={[0, -2.5, 0]} 
+              scale={2.5}
+              position={[0, -2.5, 0]}
               rotation={[0, 0, 0]}
-              autoRotate={true} 
+              autoRotate={true}
               interactive={true}
             />
           </div>
 
           {/* UI Layer */}
-          <div className="relative z-10 flex flex-col items-center justify-end h-full w-full pb-24">
+          <div className="relative z-10 flex flex-col items-center justify-end h-full w-full pb-24 pointer-events-none">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 1 }}
-              className="text-center"
+              className="text-center pointer-events-auto"
             >
               <h1 className="font-display text-[var(--void)] text-5xl md:text-7xl font-black tracking-widest mb-4 uppercase">
                 CODE ENDGAME
