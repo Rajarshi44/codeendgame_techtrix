@@ -1,0 +1,31 @@
+// lib/phases.ts
+import { Phase } from '@/types'
+
+export const PHASE_WINDOWS = {
+  REGISTRATION_CLOSE: new Date('2026-05-09T23:59:59+05:30'),
+  HACKATHON_START:    new Date('2026-05-10T00:01:00+05:30'), // Today
+  CORE_WINDOW_END:    new Date('2026-05-10T23:59:00+05:30'), // End of today
+  HACKATHON_END:      new Date('2026-05-12T23:59:59+05:30'), // Two days from now
+  RESULTS_TIME:       new Date('2026-05-14T18:00:00+05:30'),
+  FINALE_START:       new Date('2026-05-15T10:30:00+05:30'),
+}
+
+export function getCurrentPhase(now: Date): Phase {
+  if (now < PHASE_WINDOWS.HACKATHON_START) return 'PRE_HACKATHON'
+  if (now < PHASE_WINDOWS.CORE_WINDOW_END) return 'CORE_WINDOW_OPEN'
+  if (now < PHASE_WINDOWS.HACKATHON_END)   return 'HACKATHON_LIVE'
+  if (now < PHASE_WINDOWS.RESULTS_TIME)    return 'RESULTS_PENDING'
+  if (now >= PHASE_WINDOWS.FINALE_START)   return 'FINALE'
+  return 'RESULTS_PENDING'
+}
+
+export function getNextMilestone(phase: Phase): Date | null {
+  switch (phase) {
+    case 'PRE_HACKATHON':         return PHASE_WINDOWS.HACKATHON_START
+    case 'CORE_WINDOW_OPEN':      return PHASE_WINDOWS.CORE_WINDOW_END
+    case 'HACKATHON_LIVE':        return PHASE_WINDOWS.HACKATHON_END
+    case 'RESULTS_PENDING':       return PHASE_WINDOWS.FINALE_START
+    case 'FINALE':                return null
+    default:                      return null
+  }
+}

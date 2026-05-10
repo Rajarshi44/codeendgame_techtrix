@@ -1,58 +1,57 @@
-import { DeployButton } from "@/components/deploy-button";
-import { EnvVarWarning } from "@/components/env-var-warning";
-import { AuthButton } from "@/components/auth-button";
-import { Hero } from "@/components/hero";
-import { ThemeSwitcher } from "@/components/theme-switcher";
-import { ConnectSupabaseSteps } from "@/components/tutorial/connect-supabase-steps";
-import { SignUpUserSteps } from "@/components/tutorial/sign-up-user-steps";
-import { hasEnvVars } from "@/lib/utils";
-import Link from "next/link";
-import { Suspense } from "react";
+'use client'
 
-export default function Home() {
+import { useState, useEffect } from 'react'
+import Navbar from '@/components/landing/Navbar'
+import HeroSection from '@/components/landing/HeroSection'
+import EventDetails from '@/components/landing/EventDetails'
+import ProblemStatements from '@/components/landing/ProblemStatements'
+import Timeline from '@/components/landing/Timeline'
+import JudgingCriteria from '@/components/landing/JudgingCriteria'
+import OrganizersSection from '@/components/landing/OrganizersSection'
+import Footer from '@/components/landing/Footer'
+import AuthModal from '@/components/auth/AuthModal'
+import IntroScreen from '@/components/landing/IntroScreen'
+
+export default function LandingPage() {
+  const [authOpen, setAuthOpen] = useState(false)
+  const [phase, setPhase] = useState<'intro' | 'transitioning' | 'landing'>('intro')
+
+  // Prevent scrolling while intro is active
+  useEffect(() => {
+    if (phase !== 'landing') {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'auto'
+    }
+    return () => { document.body.style.overflow = 'auto' }
+  }, [phase])
+
+  const handleIntroComplete = () => {
+    // Phase 1: Start the exit animation (intro still mounted)
+    setPhase('transitioning')
+    // Phase 2: After intro exit animation finishes, fully unmount intro and mount hero model
+    setTimeout(() => setPhase('landing'), 1500)
+  }
+
   return (
-    <main className="min-h-screen flex flex-col items-center">
-      <div className="flex-1 w-full flex flex-col gap-20 items-center">
-        <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
-          <div className="w-full max-w-5xl flex justify-between items-center p-3 px-5 text-sm">
-            <div className="flex gap-5 items-center font-semibold">
-              <Link href={"/"}>Next.js Supabase Starter</Link>
-              <div className="flex items-center gap-2">
-                <DeployButton />
-              </div>
-            </div>
-            {!hasEnvVars ? (
-              <EnvVarWarning />
-            ) : (
-              <Suspense>
-                <AuthButton />
-              </Suspense>
-            )}
-          </div>
-        </nav>
-        <div className="flex-1 flex flex-col gap-20 max-w-5xl p-5">
-          <Hero />
-          <main className="flex-1 flex flex-col gap-6 px-4">
-            <h2 className="font-medium text-xl mb-4">Next steps</h2>
-            {hasEnvVars ? <SignUpUserSteps /> : <ConnectSupabaseSteps />}
-          </main>
-        </div>
-
-        <footer className="w-full flex items-center justify-center border-t mx-auto text-center text-xs gap-8 py-16">
-          <p>
-            Powered by{" "}
-            <a
-              href="https://supabase.com/?utm_source=create-next-app&utm_medium=template&utm_term=nextjs"
-              target="_blank"
-              className="font-bold hover:underline"
-              rel="noreferrer"
-            >
-              Supabase
-            </a>
-          </p>
-          <ThemeSwitcher />
-        </footer>
+    <main>
+      {/* Intro is fully unmounted once we reach 'landing' phase — frees the WebGL context */}
+      {phase !== 'landing' && (
+        <IntroScreen onEnter={handleIntroComplete} />
+      )}
+      
+      <div style={{ opacity: phase === 'landing' ? 1 : 0, transition: 'opacity 0.6s ease-in' }}>
+        <Navbar onAssemble={() => setAuthOpen(true)} />
+        {/* Hero model only mounts when intro is fully gone — prevents WebGL context crash */}
+        <HeroSection onAssemble={() => setAuthOpen(true)} showModel={phase === 'landing'} />
+        <ProblemStatements />
+        <EventDetails />
+        <Timeline />
+        <JudgingCriteria />
+        <OrganizersSection />
+        <Footer />
+        <AuthModal open={authOpen} onClose={() => setAuthOpen(false)} />
       </div>
     </main>
-  );
+  )
 }
