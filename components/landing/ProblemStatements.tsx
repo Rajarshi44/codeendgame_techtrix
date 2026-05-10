@@ -59,13 +59,20 @@ export default function ProblemStatements() {
             </p>
           </div>
 
-          <div className="flex-1 w-full min-h-[300px] md:min-h-[400px] relative my-4">
+          {/* 
+            The parent container maintains the normal layout flow.
+            The inner absolute div expands slightly beyond the parent (inset-[-40px])
+            to provide a 'bleed' area, preventing the 3D model from being clipped by tight boundaries.
+          */}
+          <div className="flex-1 w-full min-h-[300px] md:min-h-[400px] relative my-4 pointer-events-none">
+            <div className="absolute inset-[-80px] md:inset-[-100px] pointer-events-auto">
             <ThanosModel 
               interactive={true} 
               autoRotate={true}
-              scale={0.012}
-              position={[0, -2.5, 0]}
+              scale={0.008}
+              position={[0, -1.5, 0]}
             />
+            </div>
           </div>
 
           <div className="border-t-2 border-[var(--panel-border)] pt-6">
