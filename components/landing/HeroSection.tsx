@@ -104,30 +104,75 @@ export default function HeroSection({ onAssemble, showModel = true }: HeroSectio
       {/* Main Content Area */}
       <div className="col-span-1 lg:col-span-11 flex flex-col justify-between p-6 md:p-12 lg:p-24 relative z-10">
         
-        <div className="flex justify-between items-start" style={{ opacity: isOverlay ? 0 : 1 }}>
+        <div className="flex justify-between items-start relative" style={{ opacity: isOverlay ? 0 : 1 }}>
           <span className="font-mono text-xs md:text-sm tracking-[0.3em] bg-[var(--text-primary)] text-[var(--void)] px-2 py-1 h-fit">
             VOL. 26 // HACKATHON
           </span>
           
-          {/* Measured Terminal Box (3D Corner Shift with Parallax) */}
+          {/* Crisp Spider-Verse Comic Panel */}
           <div 
-            className="w-64 sm:w-80 bg-black/60 backdrop-blur-xl border border-[var(--panel-border)] overflow-hidden relative pointer-events-auto"
-            style={{
-              transform: `perspective(1000px) rotateY(${-15 + aberration.x * 15}deg) rotateX(${5 - aberration.y * 15}deg) translate3d(${2 + aberration.x}rem, ${-1 + aberration.y}rem, 0)`,
-              boxShadow: `${-8 - aberration.x * 15}px ${8 - aberration.y * 15}px 30px rgba(0,0,0,0.8), -2px 2px 0px var(--accent)`
-            }}
+            className="absolute -top-4 -right-2 md:-top-8 md:-right-8 lg:-top-12 lg:-right-12 z-50 w-72 sm:w-80 pointer-events-auto origin-top-right"
           >
-            <div className="absolute top-0 left-0 w-full h-0.5 bg-[var(--accent)]" />
-            <div className="border-b border-[var(--panel-border)] bg-white/5 text-[var(--text-primary)] font-mono text-[9px] tracking-widest px-3 py-1 flex justify-between items-center">
-              <span>[ PETER_PARKER.LOG ]</span>
-              <span className="w-1.5 h-1.5 bg-[var(--accent)] rounded-full animate-pulse" />
-            </div>
-            <div className="p-4 min-h-[80px] flex items-center relative group">
-              <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:100%_4px] pointer-events-none" />
-              <p className="font-mono text-xs text-[var(--text-primary)] leading-relaxed z-10 drop-shadow-[0_0_8px_rgba(0,240,255,0.3)]">
-                {displayedText}
-                <span className="inline-block w-1.5 h-3 bg-[var(--accent)] ml-1 align-middle animate-pulse shadow-[0_0_10px_var(--accent)]" />
-              </p>
+            {/* The 3D Parallax Object */}
+            <div 
+              className="relative transition-transform duration-75 group"
+              style={{
+                transform: `perspective(600px) rotateY(${-25 + aberration.x * 30}deg) rotateX(${10 - aberration.y * 30}deg) translateZ(${Math.abs(aberration.x) * 20}px)`,
+                // Generate a continuous black stroke around the compound shape, followed by massive CMYK 3D shadows
+                filter: `
+                  drop-shadow(0px -3px 0px #0a0a0a) 
+                  drop-shadow(0px 3px 0px #0a0a0a) 
+                  drop-shadow(-3px 0px 0px #0a0a0a) 
+                  drop-shadow(3px 0px 0px #0a0a0a)
+                  drop-shadow(${-16 - aberration.x * 20}px ${16 - aberration.y * 20}px 0px #00f0ff) 
+                  drop-shadow(${-8 - aberration.x * 10}px ${8 - aberration.y * 10}px 0px var(--accent))
+                `
+              }}
+            >
+              {/* Main Panel Body - Fixed Height Asymmetrical Hexagon */}
+              <div 
+                className="bg-[#fefefe] relative overflow-hidden z-10 flex flex-col h-[150px]"
+                style={{ clipPath: 'polygon(5% 0, 100% 0, 100% 90%, 95% 100%, 0 100%, 0 10%)' }}
+              >
+                {/* Comic Speed Lines Background */}
+                <div 
+                  className="absolute inset-0 opacity-[0.06] pointer-events-none"
+                  style={{
+                    background: 'repeating-linear-gradient(45deg, transparent, transparent 8px, #0a0a0a 8px, #0a0a0a 10px)'
+                  }}
+                />
+
+                {/* Solid Black Header Tab */}
+                <div className="bg-[#0a0a0a] text-[#fefefe] px-4 py-2 w-full flex justify-between items-center ml-[5%] shrink-0">
+                  <span className="font-black text-[10px] tracking-[0.2em] uppercase">Peter_Parker.Log</span>
+                  <span className="text-[var(--accent)] text-xs font-black animate-pulse mr-4">{"///"}</span>
+                </div>
+
+                {/* Content */}
+                <div className="p-6 pt-6 pb-6 relative z-10 flex-1 flex flex-col justify-center">
+                  <p 
+                    className="font-black text-sm text-[#0a0a0a] leading-snug uppercase tracking-tight relative"
+                  >
+                    {displayedText}
+                    <span className="inline-block w-2.5 h-4 bg-[var(--accent)] ml-1 align-middle animate-pulse" />
+                    
+                    {/* True Cyan Glitch Clone (Absolute overlay tracking exact wrapping) */}
+                    <span 
+                      className="absolute top-[1.5px] left-[1.5px] text-[#00f0ff] mix-blend-multiply pointer-events-none w-full h-full" 
+                      aria-hidden="true"
+                    >
+                      {displayedText}
+                      <span className="inline-block w-2.5 h-4 bg-transparent ml-1 align-middle" />
+                    </span>
+                  </p>
+                </div>
+              </div>
+              
+              {/* Sharp Speech Bubble Tail Pointing Left Towards Spider-Man */}
+              <div 
+                className="absolute -bottom-6 left-12 w-12 h-10 bg-[#fefefe] z-0"
+                style={{ clipPath: 'polygon(40% 0, 100% 0, 0 100%)' }}
+              />
             </div>
           </div>
         </div>
