@@ -7,8 +7,8 @@ export default function Footer() {
         
         <div className="flex flex-col gap-6">
           <div className="flex items-center gap-6">
-            <div className="bg-[var(--void)] p-2">
-              <TechtrixLogo size="sm" />
+            <div className="bg-[var(--void)] p-3">
+              <TechtrixLogo size="sm" on="light" />
             </div>
             <div className="flex flex-col">
               <span className="font-display text-2xl tracking-widest leading-none">CODE ENDGAME</span>

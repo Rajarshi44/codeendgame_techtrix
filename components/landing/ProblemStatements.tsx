@@ -1,3 +1,5 @@
+import ThanosModel from './ThanosModel'
+
 export default function ProblemStatements() {
   const STATEMENTS = [
     {
@@ -37,14 +39,17 @@ export default function ProblemStatements() {
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row border-4 border-[var(--panel-border)] bg-[var(--text-primary)] p-1 gap-1">
         
         {/* Left Column - Header Dossier */}
-        <div className="w-full md:w-[35%] bg-[var(--void)] p-8 md:p-12 flex flex-col justify-between">
+        <div className="w-full md:w-[35%] bg-[var(--void)] p-8 md:p-12 flex flex-col gap-0">
           <div>
             <div className="font-mono text-xs tracking-widest text-[var(--accent)] mb-8 flex justify-between border-b-2 border-[var(--accent)] pb-2">
               <span>REF // 904-B</span>
               <span>CLASSIFIED</span>
             </div>
             
-            <h2 className="font-display text-4xl md:text-6xl font-black leading-none mb-6">
+            <h2
+              className="font-display font-black leading-[0.85] mb-6"
+              style={{ fontSize: 'clamp(2rem, 3.5vw, 3.5rem)' }}
+            >
               MISSION <br/>
               <span className="text-[var(--text-muted)]">PARAMETERS</span>
             </h2>
@@ -52,6 +57,15 @@ export default function ProblemStatements() {
             <p className="font-body text-[var(--text-secondary)] text-lg leading-relaxed mb-12">
               Five critical vulnerabilities detected in the mainframe. Target one subsystem. Execute protocol. Failure is fatal.
             </p>
+          </div>
+
+          <div className="flex-1 w-full min-h-[300px] md:min-h-[400px] relative my-4">
+            <ThanosModel 
+              interactive={true} 
+              autoRotate={true}
+              scale={0.012}
+              position={[0, -2.5, 0]}
+            />
           </div>
 
           <div className="border-t-2 border-[var(--panel-border)] pt-6">

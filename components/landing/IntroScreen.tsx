@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from 'framer-motion'
 import SpiderGwenModel from './SpiderGwenModel'
+import TechtrixLogo from '@/components/ui/TechtrixLogo'
 import GridScan from './GridScan'
 
 interface IntroScreenProps {
@@ -110,6 +111,7 @@ export default function IntroScreen({ onEnter }: IntroScreenProps) {
                 className="flex flex-col gap-1.5 text-[10px] md:text-xs tracking-[0.3em] font-bold"
               >
                 <div className="flex items-center gap-3 mb-2">
+                  <TechtrixLogo size="sm" on="dark" />
                   <span className="bg-[#FF0055] text-black px-3 py-1 font-black">SYS.V.26</span>
                   <span className="text-[#FF0055] border border-[#FF0055] px-2 py-1">TECHTRIX</span>
                 </div>
