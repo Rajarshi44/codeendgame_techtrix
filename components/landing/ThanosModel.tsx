@@ -152,7 +152,7 @@ export default function ThanosModel({
             autoRotate={autoRotate}
             autoRotateSpeed={1.5}
             minPolarAngle={Math.PI / 3} 
-            maxPolarAngle={Math.PI / 1.8} 
+            maxPolarAngle={Math.PI / 2} 
           />
         )}
         

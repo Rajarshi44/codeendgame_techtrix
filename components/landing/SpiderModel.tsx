@@ -159,6 +159,8 @@ export default function SpiderModel({
             autoRotate={autoRotate}
             autoRotateSpeed={1.5}
             enableDamping
+            minPolarAngle={Math.PI / 3}
+            maxPolarAngle={Math.PI / 2}
           />
         </React.Suspense>
       </Canvas>
