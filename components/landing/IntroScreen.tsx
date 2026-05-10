@@ -27,6 +27,10 @@ export default function IntroScreen({ onEnter }: IntroScreenProps) {
   const azimuth = useTransform(springX, x => `AZM: ${(x / 10).toFixed(2)}°`)
   const elevation = useTransform(springY, y => `ELV: ${(y / -10).toFixed(2)}°`)
 
+  // 3D Visor Tilt Mapping
+  const rotateX = useTransform(springY, y => y * -0.015)
+  const rotateY = useTransform(springX, x => x * 0.015)
+
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       mouseX.set(e.clientX - window.innerWidth / 2)
@@ -88,11 +92,17 @@ export default function IntroScreen({ onEnter }: IntroScreenProps) {
             />
           </div>
 
-          {/* UI Layer - Industrial Brutalist Targeter */}
-          <div className="absolute inset-0 z-10 pointer-events-none flex flex-col justify-between p-6 md:p-10 font-mono overflow-hidden">
-            
+          {/* Subtle CRT Scanlines & Vignette */}
+          <div className="absolute inset-0 z-[100] pointer-events-none bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPjxyZWN0IHdpZHRoPSI0IiBoZWlnaHQ9IjEiIGZpbGw9InJnYmEoMCwgMCwgMCwgMC4yKSIvPjwvc3ZnPg==')] opacity-50 mix-blend-overlay" />
+          <div className="absolute inset-0 z-[100] pointer-events-none bg-[radial-gradient(circle_at_center,transparent_30%,rgba(5,0,15,0.7)_100%)]" />
+
+          {/* --- UI LAYER WRAPPER (3D VISOR TILT) --- */}
+          <motion.div 
+            style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+            className="absolute inset-0 z-10 pointer-events-none"
+          >
             {/* Top Bar - Military Telemetry */}
-            <div className="flex justify-between items-start w-full mix-blend-screen text-white">
+            <div className="absolute top-0 left-0 right-0 p-6 md:p-10 flex justify-between items-start w-full mix-blend-screen text-white pointer-events-none" style={{ transform: "translateZ(100px)" }}>
               <motion.div 
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -122,36 +132,50 @@ export default function IntroScreen({ onEnter }: IntroScreenProps) {
               </motion.div>
             </div>
 
-            {/* Subtle CRT Scanlines & Vignette instead of Flashbang */}
-            <div className="absolute inset-0 z-[100] pointer-events-none bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPjxyZWN0IHdpZHRoPSI0IiBoZWlnaHQ9IjEiIGZpbGw9InJnYmEoMCwgMCwgMCwgMC4yKSIvPjwvc3ZnPg==')] opacity-50 mix-blend-overlay" />
-            <div className="absolute inset-0 z-[100] pointer-events-none bg-[radial-gradient(circle_at_center,transparent_30%,rgba(5,0,15,0.7)_100%)]" />
-
-            {/* Smart Tracking Autofocus Bracket */}
-            <motion.div 
-              style={{ x: springX, y: springY }}
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 pointer-events-none z-10 mix-blend-screen opacity-60"
-            >
-              {/* Corner Brackets */}
-              <div className="absolute top-0 left-0 w-6 h-6 border-t-[1.5px] border-l-[1.5px] border-[#00e5ff] opacity-70" />
-              <div className="absolute top-0 right-0 w-6 h-6 border-t-[1.5px] border-r-[1.5px] border-[#00e5ff] opacity-70" />
-              <div className="absolute bottom-0 left-0 w-6 h-6 border-b-[1.5px] border-l-[1.5px] border-[#00e5ff] opacity-70" />
-              <div className="absolute bottom-0 right-0 w-6 h-6 border-b-[1.5px] border-r-[1.5px] border-[#00e5ff] opacity-70" />
+            {/* --- MINIMALIST DRAFTING CROSSHAIR (Laser Aesthetic) --- */}
+            <div className="absolute inset-0 mix-blend-screen opacity-70" style={{ transform: "translateZ(50px)" }}>
               
-              {/* Center Dot & Tracking Text */}
-              <div className="absolute top-1/2 left-1/2 w-1 h-1 bg-[#FF0055] -translate-x-1/2 -translate-y-1/2 shadow-[0_0_10px_#FF0055]" />
-              
-              <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 text-[8px] font-mono tracking-widest text-[#00e5ff] opacity-80">
-                <span className="w-1.5 h-1.5 bg-[#FF0055] animate-pulse rounded-full" />
-                TRGT_LOCKED
-              </div>
-            </motion.div>
+              {/* Horizontal Ruler Guide - Laser Gradient */}
+              <motion.div 
+                style={{ y: springY }}
+                className="absolute top-1/2 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#00e5ff] to-transparent shadow-[0_0_8px_#00e5ff]"
+              >
+                {/* Edge Coordinate Marker (Left) */}
+                <div className="absolute left-6 md:left-12 -top-4 flex items-center gap-2">
+                  <div className="w-[1px] h-3 bg-[#00e5ff]" />
+                  <motion.span className="text-[9px] font-mono tracking-[0.2em] text-[#00e5ff] uppercase drop-shadow-[0_0_5px_#00e5ff]">
+                    {elevation}
+                  </motion.span>
+                </div>
+              </motion.div>
 
-            {/* Bottom Interaction - Raw Brutalist Interface */}
-            <motion.div 
-              animate={{ x: [0, -3, 3, -1, 1, 0, 0], y: [0, 1, -1, 2, -2, 0, 0] }}
-              transition={{ duration: 0.2, repeat: Infinity, repeatDelay: 6 }}
-              className="mt-auto pointer-events-auto flex flex-col md:flex-row justify-between items-end gap-8 w-full z-20"
-            >
+              {/* Vertical Ruler Guide - Laser Gradient */}
+              <motion.div 
+                style={{ x: springX }}
+                className="absolute top-0 left-1/2 w-[1px] h-full bg-gradient-to-b from-transparent via-[#00e5ff] to-transparent shadow-[0_0_8px_#00e5ff]"
+              >
+                {/* Edge Coordinate Marker (Top) */}
+                <div className="absolute top-6 md:top-12 left-2 flex items-center gap-2 rotate-90 origin-left">
+                  <div className="w-[1px] h-3 bg-[#00e5ff]" />
+                  <motion.span className="text-[9px] font-mono tracking-[0.2em] text-[#00e5ff] uppercase whitespace-nowrap drop-shadow-[0_0_5px_#00e5ff]">
+                    {azimuth}
+                  </motion.span>
+                </div>
+              </motion.div>
+              
+              {/* Precision Mouse Node */}
+              <motion.div 
+                style={{ x: springX, y: springY }}
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center"
+              >
+                <div className="w-2 h-2 bg-white rounded-full shadow-[0_0_15px_#fff]" />
+                <div className="absolute w-8 h-8 border-[1px] border-[#00e5ff]/50 rounded-full animate-[spin_3s_linear_infinite]" />
+              </motion.div>
+            </div>
+
+            {/* Brutalist Targeter HUD Elements */}
+            <div className="absolute inset-0 flex flex-col justify-between p-6 md:p-10 font-mono overflow-hidden pointer-events-none" style={{ transform: "translateZ(100px)" }}>
+              <div className="mt-auto pointer-events-auto flex flex-col md:flex-row justify-between items-end gap-8 w-full z-20">
               
               {/* Left Side Title - Extreme Type Contrast & Glitch Engine */}
               <motion.div 
@@ -252,7 +276,9 @@ export default function IntroScreen({ onEnter }: IntroScreenProps) {
                 </button>
               </motion.div>
 
-            </motion.div>
+              </div>
+            </div>
+          </motion.div>
           
           {/* Add global CSS for the stroke-text effect locally */}
           <style dangerouslySetInnerHTML={{__html: `
@@ -261,7 +287,6 @@ export default function IntroScreen({ onEnter }: IntroScreenProps) {
               color: transparent;
             }
           `}} />
-          </div>
         </motion.div>
       )}
     </AnimatePresence>
