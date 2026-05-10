@@ -8,10 +8,23 @@ interface HeroSectionProps {
   showModel?: boolean
 }
 
+const SPIDER_QUOTES = [
+  "With great commits comes great merge conflicts.",
+  "With great coding comes great 'it works on my machine.'",
+  "With great backend power comes great frontend blame.",
+  "With great coding skills comes great sleep deprivation.",
+  "With great root access comes great panic.",
+  "With great code comes great responsibility... and unexpected bugs."
+]
+
 export default function HeroSection({ onAssemble, showModel = true }: HeroSectionProps) {
   const container = useRef<HTMLElement>(null)
   const mouseRef = useRef({ targetX: 0, targetY: 0, currentX: 0, currentY: 0 })
   const [aberration, setAberration] = useState({ x: 0, y: 0 })
+  
+  const [currentQuote, setCurrentQuote] = useState(0)
+  const [displayedText, setDisplayedText] = useState("")
+  const [isTyping, setIsTyping] = useState(true)
 
   // Butter-smooth mouse parallax for the Holographic Chromatic Aberration
   useEffect(() => {
@@ -43,6 +56,34 @@ export default function HeroSection({ onAssemble, showModel = true }: HeroSectio
     }
   }, [])
 
+  useEffect(() => {
+    let timeout: NodeJS.Timeout
+    const fullText = SPIDER_QUOTES[currentQuote]
+    
+    if (isTyping) {
+      if (displayedText.length < fullText.length) {
+        timeout = setTimeout(() => {
+          setDisplayedText(fullText.slice(0, displayedText.length + 1))
+        }, 30)
+      } else {
+        timeout = setTimeout(() => {
+          setIsTyping(false)
+        }, 4000)
+      }
+    } else {
+      if (displayedText.length > 0) {
+        timeout = setTimeout(() => {
+          setDisplayedText(displayedText.slice(0, -1))
+        }, 15)
+      } else {
+        setIsTyping(true)
+        setCurrentQuote((prev) => (prev + 1) % SPIDER_QUOTES.length)
+      }
+    }
+    
+    return () => clearTimeout(timeout)
+  }, [displayedText, isTyping, currentQuote])
+
   const renderContent = (isOverlay: boolean) => (
     <div 
       className={`flex-1 w-full grid grid-cols-1 lg:grid-cols-12 relative pointer-events-none ${isOverlay ? 'z-10' : 'z-0'}`} 
@@ -64,12 +105,31 @@ export default function HeroSection({ onAssemble, showModel = true }: HeroSectio
       <div className="col-span-1 lg:col-span-11 flex flex-col justify-between p-6 md:p-12 lg:p-24 relative z-10">
         
         <div className="flex justify-between items-start" style={{ opacity: isOverlay ? 0 : 1 }}>
-          <span className="font-mono text-xs md:text-sm tracking-[0.3em] bg-[var(--text-primary)] text-[var(--void)] px-2 py-1">
+          <span className="font-mono text-xs md:text-sm tracking-[0.3em] bg-[var(--text-primary)] text-[var(--void)] px-2 py-1 h-fit">
             VOL. 26 // HACKATHON
           </span>
-          <span className="font-mono text-xs md:text-sm tracking-widest text-[var(--accent)] border-b-2 border-[var(--accent)] pb-1">
-            [ CLASSIFIED BRIEFING ]
-          </span>
+          
+          {/* Measured Terminal Box (3D Corner Shift with Parallax) */}
+          <div 
+            className="w-64 sm:w-80 bg-black/60 backdrop-blur-xl border border-[var(--panel-border)] overflow-hidden relative pointer-events-auto"
+            style={{
+              transform: `perspective(1000px) rotateY(${-15 + aberration.x * 15}deg) rotateX(${5 - aberration.y * 15}deg) translate3d(${2 + aberration.x}rem, ${-1 + aberration.y}rem, 0)`,
+              boxShadow: `${-8 - aberration.x * 15}px ${8 - aberration.y * 15}px 30px rgba(0,0,0,0.8), -2px 2px 0px var(--accent)`
+            }}
+          >
+            <div className="absolute top-0 left-0 w-full h-0.5 bg-[var(--accent)]" />
+            <div className="border-b border-[var(--panel-border)] bg-white/5 text-[var(--text-primary)] font-mono text-[9px] tracking-widest px-3 py-1 flex justify-between items-center">
+              <span>[ PETER_PARKER.LOG ]</span>
+              <span className="w-1.5 h-1.5 bg-[var(--accent)] rounded-full animate-pulse" />
+            </div>
+            <div className="p-4 min-h-[80px] flex items-center relative group">
+              <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:100%_4px] pointer-events-none" />
+              <p className="font-mono text-xs text-[var(--text-primary)] leading-relaxed z-10 drop-shadow-[0_0_8px_rgba(0,240,255,0.3)]">
+                {displayedText}
+                <span className="inline-block w-1.5 h-3 bg-[var(--accent)] ml-1 align-middle animate-pulse shadow-[0_0_10px_var(--accent)]" />
+              </p>
+            </div>
+          </div>
         </div>
 
         <div className="my-auto relative">
