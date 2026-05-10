@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { motion, AnimatePresence, useMotionValue, useSpring } from 'framer-motion'
+import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from 'framer-motion'
 import SpiderGwenModel from './SpiderGwenModel'
 import GridScan from './GridScan'
 
@@ -15,8 +15,17 @@ export default function IntroScreen({ onEnter }: IntroScreenProps) {
   // Smart Autofocus Bracket Tracking
   const mouseX = useMotionValue(0)
   const mouseY = useMotionValue(0)
-  const springX = useSpring(mouseX, { stiffness: 50, damping: 15, mass: 0.5 })
-  const springY = useSpring(mouseY, { stiffness: 50, damping: 15, mass: 0.5 })
+  // Fast inner bracket (Snappy)
+  const springX = useSpring(mouseX, { stiffness: 100, damping: 15, mass: 0.5 })
+  const springY = useSpring(mouseY, { stiffness: 100, damping: 15, mass: 0.5 })
+
+  // Slow outer trailing bracket (Parallax depth)
+  const slowSpringX = useSpring(mouseX, { stiffness: 30, damping: 30, mass: 1.5 })
+  const slowSpringY = useSpring(mouseY, { stiffness: 30, damping: 30, mass: 1.5 })
+
+  // Dynamic Telemetry Data generated from mouse position
+  const azimuth = useTransform(springX, x => `AZM: ${(x / 10).toFixed(2)}°`)
+  const elevation = useTransform(springY, y => `ELV: ${(y / -10).toFixed(2)}°`)
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -164,7 +173,7 @@ export default function IntroScreen({ onEnter }: IntroScreenProps) {
                       key={i}
                       animate={{ height: ['20%', '100%', '30%', '80%', '10%'] }}
                       transition={{ 
-                        duration: Math.random() * 0.8 + 0.4, 
+                        duration: 0.4 + ((i * 3) % 8) * 0.1, 
                         repeat: Infinity, 
                         repeatType: "mirror",
                         ease: "circInOut"
