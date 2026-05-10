@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import SpiderModel from './SpiderModel'
+import SpiderGwenModel from './SpiderGwenModel'
 
 interface IntroScreenProps {
   onEnter: () => void
@@ -33,12 +33,21 @@ export default function IntroScreen({ onEnter }: IntroScreenProps) {
 
           {/* 3D Model Layer */}
           <div className="absolute inset-0 z-0">
-            <SpiderModel 
-              animationName="Armature|hero_spiderman01_S05@dash"
+            <SpiderGwenModel 
+              animationSequence={[
+                'Armature|hero_spidergwen01_S03@succ_cam',
+                'Armature|hero_spidergwen01_S03@skill02',
+                'Armature|hero_spidergwen01_S03@skill03-02',
+                'Armature|hero_spidergwen01_S03@skill04-02',
+                'Armature|hero_spidergwen01_S03@walk'
+              ]}
+              playCounts={[1, 1, 1, 1]}
               animationSpeed={0.5}
               scale={2.5} 
               position={[0, -2.5, 0]} 
+              rotation={[0, 0, 0]}
               autoRotate={true} 
+              interactive={true}
             />
           </div>
 
