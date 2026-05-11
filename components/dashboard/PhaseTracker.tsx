@@ -6,8 +6,8 @@ import { useCountdown } from '@/hooks/useCountdown'
 import { getNextMilestone } from '@/lib/phases'
 import { PHASE_WINDOWS } from '@/lib/phases'
 import { Clock, Radio, Hourglass, Trophy, Lock } from 'lucide-react'
-import { useHackathonStore } from '@/store/useHackathonStore'
 import { useRouter } from 'next/navigation'
+import { createClient } from '@/lib/supabase'
 
 function pad(n: number) { return String(n).padStart(2, '0') }
 
@@ -24,7 +24,6 @@ export default function PhaseTracker({ userEmail }: { userEmail?: string }) {
   const nextMilestone = getNextMilestone(phase)
   const countdown = useCountdown(nextMilestone ?? new Date())
   const router = useRouter()
-  const logout = useHackathonStore(s => s.logout)
 
   const borderColor = STONE_BORDER[phase] ?? 'var(--accent)'
 
@@ -32,8 +31,9 @@ export default function PhaseTracker({ userEmail }: { userEmail?: string }) {
   const coreSeconds = Math.floor((timeToCoreWindowEnd % 60000) / 1000)
   const coreAlmostUp = timeToCoreWindowEnd < 5 * 60 * 1000
 
-  const handleSignOut = () => {
-    logout()
+  const handleSignOut = async () => {
+    const supabase = createClient()
+    await supabase.auth.signOut()
     router.push('/')
   }
 
