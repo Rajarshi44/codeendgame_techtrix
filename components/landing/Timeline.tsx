@@ -88,7 +88,7 @@ export default function Timeline() {
           </div>
 
           {/* RIGHT: File-Folder Rolodex Timeline */}
-          <div className="w-full h-[500px] lg:h-[600px] overflow-y-auto no-scrollbar relative pb-[400px]">
+          <div className="w-full h-[500px] lg:h-[600px] overflow-y-auto no-scrollbar relative bg-white/50 backdrop-blur-sm">
             
             <style jsx>{`
               .no-scrollbar::-webkit-scrollbar {
@@ -102,6 +102,7 @@ export default function Timeline() {
 
             <div className="flex flex-col pt-4 px-2">
               {NODES.map((node, index) => {
+                const isLast = index === NODES.length - 1;
                 // Precise math: each card sticks exactly below the previous tab header
                 const stickyOffset = index * TAB_HEIGHT; 
                 
@@ -115,18 +116,18 @@ export default function Timeline() {
                     className="sticky"
                     style={{ top: `${stickyOffset}px`, zIndex: 10 + index }}
                   >
-                    {/* The Card - Glassmorphism & Cast Shadow for depth */}
-                    <div className="relative border border-[var(--text-primary)]/10 bg-white/85 backdrop-blur-xl shadow-[0_-12px_40px_rgba(0,0,0,0.08)] transition-all duration-500 overflow-hidden group">
+                    {/* The Card - Clean solid background with Cast Shadow for depth */}
+                    <div className="relative border border-[var(--text-primary)]/10 bg-[#fafafa] shadow-[0_-12px_40px_rgba(0,0,0,0.06)] transition-all duration-500 overflow-hidden group">
                       
                       {/* Active / Hover Top Accent Line */}
                       <div className={`absolute top-0 left-0 w-full h-[3px] transition-colors duration-500 ${
-                        node.status === 'ACTIVE' ? 'bg-[var(--accent)]' : 'bg-transparent group-hover:bg-[var(--text-primary)]/20'
+                        node.status === 'ACTIVE' ? 'bg-[var(--accent)]' : 'bg-transparent group-hover:bg-[var(--text-primary)]/10'
                       }`} />
 
                       {/* --- THE TAB HEADER (Remains visible when stacked) --- */}
                       <div 
                         className={`flex items-center justify-between px-6 border-b transition-colors duration-300 cursor-default ${
-                          node.status === 'ACTIVE' ? 'border-[var(--accent)]/20 bg-[var(--accent)]/5' : 'border-[var(--text-primary)]/10 bg-white/40 group-hover:bg-white/80'
+                          node.status === 'ACTIVE' ? 'border-[var(--accent)]/10 bg-white' : 'border-[var(--text-primary)]/10 bg-[#fafafa] group-hover:bg-white'
                         }`}
                         style={{ height: `${TAB_HEIGHT}px` }}
                       >
@@ -136,8 +137,8 @@ export default function Timeline() {
                           }`}>
                             {node.seq}
                           </span>
-                          <span className={`font-display text-sm md:text-base tracking-widest font-bold uppercase truncate ${
-                            node.status === 'ACTIVE' ? 'text-[var(--text-primary)]' : 'text-[var(--text-secondary)] group-hover:text-[var(--text-primary)]'
+                          <span className={`font-display text-sm md:text-base tracking-widest font-black uppercase truncate ${
+                            node.status === 'ACTIVE' ? 'text-[var(--text-primary)]' : 'text-[var(--text-primary)]/80 group-hover:text-[var(--text-primary)]'
                           }`}>
                             {node.title}
                           </span>
@@ -148,14 +149,17 @@ export default function Timeline() {
                       </div>
 
                       {/* --- THE CARD BODY (Covered when stacked) --- */}
-                      <div className="relative p-6 md:p-8 min-h-[220px]">
+                      {/* Mathematical exact heights ensure the final card fills the container perfectly with zero overscroll */}
+                      <div className={`relative p-6 md:p-8 flex flex-col justify-between ${
+                        isLast ? 'h-[244px] lg:h-[344px]' : 'h-[220px] lg:h-[280px]'
+                      }`}>
                         
                         {/* Massive background watermark */}
                         <div className="absolute top-4 right-4 font-display text-[6rem] md:text-[8rem] leading-none text-[var(--text-primary)] opacity-[0.03] pointer-events-none select-none">
-                          {node.id.replace('T-', '')}
+                          {node.seq}
                         </div>
 
-                        <div className="relative z-10 flex flex-col h-full justify-between">
+                        <div className="relative z-10 flex flex-col h-full">
                           
                           <div>
                             <div className="flex items-center gap-3 mb-6">
@@ -166,21 +170,19 @@ export default function Timeline() {
                               }`}>
                                 {node.status}
                               </span>
-                              <div className="h-[1px] w-12 bg-[var(--text-primary)]/10" />
                             </div>
 
-                            <p className="font-mono text-sm tracking-wider text-[var(--text-secondary)] leading-relaxed max-w-sm mb-8">
+                            <p className="font-mono text-sm tracking-widest text-[var(--text-primary)] leading-relaxed max-w-sm mb-8 uppercase">
                               {node.subtitle}
                             </p>
                           </div>
 
-                          <div className="flex items-center gap-4 mt-auto">
-                            <div className={`font-mono text-xs font-bold px-3 py-1 ${
-                              node.status === 'ACTIVE' ? 'bg-[var(--accent)] text-white' : 'bg-[var(--text-primary)] text-white'
+                          <div className="mt-auto">
+                            <div className={`font-mono text-xs font-bold px-3 py-1 inline-block ${
+                              node.status === 'ACTIVE' ? 'bg-[var(--accent)] text-white' : 'bg-black text-white'
                             }`}>
                               {node.time}
                             </div>
-                            <div className="flex-1 h-[1px] bg-[var(--text-primary)]/10" />
                           </div>
 
                         </div>
