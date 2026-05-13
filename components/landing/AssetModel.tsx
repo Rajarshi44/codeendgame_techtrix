@@ -14,6 +14,7 @@ interface AssetModelProps {
   autoRotateSpeed?: number
   interactive?: boolean
   environment?: "city" | "warehouse" | "studio" | "apartment" | "park" | "forest" | "dawn" | "sunset"
+  centerModel?: boolean
 }
 
 function Model({ 
@@ -21,25 +22,28 @@ function Model({
   scale = 1, 
   position = [0, 0, 0], 
   autoRotate = false,
-  autoRotateSpeed = 1.0 
+  autoRotateSpeed = 1.0,
+  centerModel = false
 }: { 
   modelPath: string
   scale?: number
   position?: [number, number, number]
   autoRotate?: boolean
   autoRotateSpeed?: number
+  centerModel?: boolean
 }) {
   const outerGroup = useRef<THREE.Group>(null)
   const innerGroup = useRef<THREE.Group>(null)
   const { scene } = useGLTF(modelPath)
   
-  // Center the model so it rotates on its own geometric center
+  // Center the model so it rotates on its own geometric center (optional, can cause wobble on asymmetric models)
   const centerOffset = useMemo(() => {
+    if (!centerModel) return new THREE.Vector3(0, 0, 0)
     const box = new THREE.Box3().setFromObject(scene)
     const center = new THREE.Vector3()
     box.getCenter(center)
     return center
-  }, [scene])
+  }, [scene, centerModel])
 
   // Enhance materials
   useMemo(() => {
@@ -66,7 +70,7 @@ function Model({
 
   return (
     <group ref={outerGroup} position={position} scale={scale}>
-      {/* Inner group offsets the model so its center is at origin, enabling true center-axis rotation */}
+      {/* Inner group offsets the model if centerModel is true */}
       <group ref={innerGroup} position={[-centerOffset.x, -centerOffset.y, -centerOffset.z]}>
         <primitive object={scene} />
       </group>
@@ -82,7 +86,8 @@ export default function AssetModel({
   autoRotate = false,
   autoRotateSpeed = 1.0,
   interactive = false,
-  environment = "city"
+  environment = "city",
+  centerModel = false
 }: AssetModelProps) {
   
   useEffect(() => {
@@ -114,6 +119,7 @@ export default function AssetModel({
             position={position}
             autoRotate={autoRotate}
             autoRotateSpeed={autoRotateSpeed}
+            centerModel={centerModel}
           />
         </React.Suspense>
       </Canvas>

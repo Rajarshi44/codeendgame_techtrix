@@ -150,6 +150,7 @@ export default function EventDetails() {
                 autoRotateSpeed={1.2}
                 interactive={false}
                 environment="studio"
+                centerModel={true}
               />
             </div>
 
@@ -356,6 +357,7 @@ export default function EventDetails() {
                     autoRotateSpeed={1.5}
                     interactive={false}
                     environment="apartment"
+                    centerModel={true}
                   />
                 </div>
               </div>
