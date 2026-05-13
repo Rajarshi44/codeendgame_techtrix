@@ -28,7 +28,7 @@ export default function TeamForm({ userEmail }: { userEmail?: string }) {
   const coreCountdown = useCountdown(PHASE_WINDOWS.CORE_WINDOW_END)
   const coreAlmostUp = timeToCoreWindowEnd < 5 * 60 * 1000 && timeToCoreWindowEnd > 0
   const isHackathonLive = phase === 'HACKATHON_LIVE' || phase === 'CORE_WINDOW_OPEN'
-  const isHackathonOver = phase === 'RESULTS_PENDING' || phase === 'FINALE'
+  const isHackathonOver = false // TEMPORARILY BYPASSED: phase === 'RESULTS_PENDING' || phase === 'FINALE'
   const coreLocked = existingTeam?.isCoreLocked || (!isCoreWindowOpen && phase !== 'PRE_HACKATHON')
   const coreMissed = !isCoreWindowOpen && !existingTeam && isHackathonLive && phase !== 'CORE_WINDOW_OPEN'
 

@@ -19,13 +19,17 @@ export const metadata: Metadata = {
   },
 }
 
+import SmoothScroll from '@/components/ui/SmoothScroll'
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="font-body text-[var(--text-primary)] bg-[var(--void)]">
-        <div className="relative z-10">
-          {children}
-        </div>
+        <SmoothScroll>
+          <div className="relative z-10">
+            {children}
+          </div>
+        </SmoothScroll>
         <ToastProvider />
       </body>
     </html>
