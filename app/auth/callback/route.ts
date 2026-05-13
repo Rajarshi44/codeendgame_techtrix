@@ -1,7 +1,14 @@
 import { NextResponse } from 'next/server'
 import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { cookies } from 'next/headers'
-import { EVENT_ID } from '@/lib/constants'
+import { ADMIN_EMAILS, EVENT_ID } from '@/lib/constants'
+
+function buildRedirect(origin: string, forwardedHost: string | null, path: string) {
+  const isLocalEnv = process.env.NODE_ENV === 'development'
+  if (isLocalEnv) return NextResponse.redirect(`${origin}${path}`)
+  if (forwardedHost) return NextResponse.redirect(`https://${forwardedHost}${path}`)
+  return NextResponse.redirect(`${origin}${path}`)
+}
 
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url)
@@ -48,6 +55,15 @@ export async function GET(request: Request) {
 
   if (!userEmail) {
     return NextResponse.redirect(`${origin}/auth/error?reason=oauth_failed`)
+  }
+
+  const forwardedHost = request.headers.get('x-forwarded-host')
+
+  // ── Admin short-circuit: skip payment gate for allowlist emails ───────────
+  if (ADMIN_EMAILS.includes(userEmail.toLowerCase())) {
+    console.log('[auth/callback] Admin email — bypassing payment check')
+    const target = next.startsWith('/') ? next : '/admin'
+    return buildRedirect(origin, forwardedHost, target)
   }
 
   // ── Payment check ──────────────────────────────────────────────────────────
@@ -105,14 +121,5 @@ export async function GET(request: Request) {
   }
 
   // ── Access granted ──────────────────────────────────────────────────────────
-  const forwardedHost = request.headers.get('x-forwarded-host')
-  const isLocalEnv = process.env.NODE_ENV === 'development'
-
-  if (isLocalEnv) {
-    return NextResponse.redirect(`${origin}${next}`)
-  } else if (forwardedHost) {
-    return NextResponse.redirect(`https://${forwardedHost}${next}`)
-  } else {
-    return NextResponse.redirect(`${origin}${next}`)
-  }
+  return buildRedirect(origin, forwardedHost, next)
 }
