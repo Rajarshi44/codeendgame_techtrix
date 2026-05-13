@@ -7,7 +7,6 @@ import { useCountdown } from '@/hooks/useCountdown'
 import { PHASE_WINDOWS } from '@/lib/phases'
 import { showToast } from '@/components/ui/Toast'
 import DSInput from '@/components/ui/DSInput'
-import Button from '@/components/ui/button'
 import { Github, Globe, Video, Lock, AlertCircle, ShieldOff, AlertTriangle } from 'lucide-react'
 import { motion } from 'framer-motion'
 
@@ -80,15 +79,19 @@ export default function TeamForm({ userEmail }: { userEmail?: string }) {
   // ── Locked field wrapper ────────────────────────────────
   function LockedField({ value, label }: { value: string; label: string }) {
     return (
-      <div style={{ position: 'relative' }}>
-        <DSInput label={label} value={value} disabled id={`locked-${label}`}
-          style={{ opacity: 0.5, cursor: 'not-allowed' }} />
-        <div style={{
-          position: 'absolute', top: '26px', right: '12px',
-          background: 'rgba(5,3,15,0.6)',
-          display: 'flex', alignItems: 'center', gap: '4px',
-        }} title="Core field locked">
-          <Lock size={12} color="var(--stone-time)" />
+      <div className="relative group">
+        <DSInput 
+          label={label} 
+          value={value} 
+          disabled 
+          id={`locked-${label}`}
+          className="opacity-60 cursor-not-allowed border-white/5 text-white/50 bg-[#050505]" 
+        />
+        <div 
+          className="absolute top-[34px] right-3 bg-[#050505] p-1.5 border border-white/10 group-hover:border-[var(--stone-time)]/50 transition-colors" 
+          title="Core field locked"
+        >
+          <Lock size={12} className="text-[var(--stone-time)] opacity-80" />
         </div>
       </div>
     )
@@ -97,19 +100,16 @@ export default function TeamForm({ userEmail }: { userEmail?: string }) {
   // ── Hackathon over overlay ──────────────────────────────
   if (isHackathonOver) {
     return (
-      <div style={{
-        background: 'var(--panel-bg)', backdropFilter: 'var(--blur-panel)',
-        border: '1px solid var(--panel-border)', borderRadius: 'var(--radius-lg)',
-        boxShadow: 'var(--panel-shadow)', padding: '40px',
-        display: 'flex', flexDirection: 'column', alignItems: 'center',
-        justifyContent: 'center', minHeight: '360px', textAlign: 'center', gap: '16px',
-        position: 'relative', overflow: 'hidden',
-      }}>
-        <ShieldOff size={48} color="var(--text-muted)" />
-        <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: '22px', color: 'var(--text-primary)' }}>
+      <div className="relative w-full bg-[#050505] border border-white/10 p-12 overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)] flex flex-col items-center justify-center min-h-[400px] text-center">
+        {/* Kinetic Background */}
+        <div className="absolute inset-0 pointer-events-none opacity-[0.03]" style={{ backgroundImage: 'linear-gradient(white 1px, transparent 1px), linear-gradient(90deg, white 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-white/5 blur-[100px] pointer-events-none rounded-full" />
+        
+        <ShieldOff size={48} className="text-white/20 mb-6 relative z-10" />
+        <h2 className="font-display text-2xl font-black text-white tracking-widest uppercase mb-2 relative z-10">
           The Endgame Has Ended
         </h2>
-        <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', color: 'var(--text-secondary)' }}>
+        <p className="font-mono text-xs text-white/40 tracking-[0.2em] uppercase relative z-10">
           All submission windows are now closed.
         </p>
       </div>
@@ -117,117 +117,134 @@ export default function TeamForm({ userEmail }: { userEmail?: string }) {
   }
 
   return (
-    <div style={{
-      background: 'var(--panel-bg)', backdropFilter: 'var(--blur-panel)',
-      border: '1px solid var(--panel-border)', borderRadius: 'var(--radius-lg)',
-      boxShadow: 'var(--panel-shadow)', padding: '32px',
-    }}>
-      <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: '20px', color: 'var(--text-primary)', marginBottom: '6px' }}>
-        Mission Registration
-      </h2>
-      <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '13px', color: 'var(--text-muted)', marginBottom: '24px' }}>
-        Complete core details within 15 minutes of hackathon start.
-      </p>
+    <div className="relative w-full bg-[#050505] border border-white/10 p-6 md:p-8 lg:p-12 overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.3)]">
+      {/* Kinetic Background */}
+      <div className="absolute inset-0 pointer-events-none opacity-[0.02]" style={{ backgroundImage: 'linear-gradient(white 1px, transparent 1px), linear-gradient(90deg, white 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
+      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[var(--accent)] opacity-[0.03] blur-[120px] pointer-events-none rounded-full" />
+      
+      {/* Corner Brackets */}
+      <div className="absolute top-0 left-0 w-6 h-6 border-t border-l border-white/20" />
+      <div className="absolute top-0 right-0 w-6 h-6 border-t border-r border-white/20" />
+      <div className="absolute bottom-0 left-0 w-6 h-6 border-b border-l border-white/20" />
+      <div className="absolute bottom-0 right-0 w-6 h-6 border-b border-r border-white/20" />
 
-      {/* Core window warning */}
-      {isCoreWindowOpen && coreAlmostUp && (
-        <motion.div
-          animate={{ x: [0, -3, 3, -2, 2, 0] }}
-          transition={{ duration: 0.5, repeat: Infinity, repeatDelay: 60 }}
-          style={{
-            background: 'rgba(232,40,58,0.1)', border: '1px solid var(--stone-reality)',
-            borderRadius: 'var(--radius-md)', padding: '12px 16px',
-            display: 'flex', alignItems: 'flex-start', gap: '10px', marginBottom: '24px',
-          }}
-        >
-          <AlertCircle size={15} color="var(--stone-reality)" style={{ flexShrink: 0, marginTop: '1px' }} />
-          <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '13px', color: 'var(--stone-reality)' }}>
-            Core submission window closes in {pad(coreCountdown.minutes)}:{pad(coreCountdown.seconds)}. Submit now.
-          </span>
-        </motion.div>
-      )}
-
-      {/* Core missed warning */}
-      {coreMissed && (
-        <div style={{
-          background: 'rgba(232,40,58,0.08)', border: '1px solid var(--stone-reality)',
-          borderRadius: 'var(--radius-md)', padding: '20px', marginBottom: '24px',
-          display: 'flex', flexDirection: 'column', gap: '8px',
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <AlertTriangle size={16} color="var(--stone-reality)" />
-            <h3 style={{ fontFamily: 'Cinzel, serif', fontSize: '15px', color: 'var(--stone-reality)' }}>
-              Core Submission Window Missed
-            </h3>
+      {/* Header Section */}
+      <div className="relative z-10 mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-white/10 pb-6">
+        <div>
+          <div className="flex items-center gap-3 mb-4">
+            <span className="w-1.5 h-1.5 bg-[var(--accent)] animate-pulse shadow-[0_0_8px_var(--accent)]" />
+            <span className="font-mono text-[9px] tracking-[0.3em] text-white/50 uppercase">Secured Channel</span>
           </div>
-          <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '13px', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
-            The 15-minute window for core team registration has closed. Contact an organizer immediately.
-          </p>
-          <p style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '12px', color: 'var(--text-muted)' }}>
-            Pratyush Pal — 9330096004 · Palas Saha — 9073743988
+          <h2 className="font-display text-3xl md:text-4xl font-black text-white tracking-tight uppercase mb-3">
+            Mission Registration
+          </h2>
+          <p className="font-mono text-[10px] md:text-[11px] text-white/40 tracking-[0.2em] uppercase max-w-md leading-relaxed border-l-2 border-[var(--accent)]/50 pl-3">
+            Complete core details within 15 minutes of hackathon start to authorize your squad.
           </p>
         </div>
-      )}
+        <div className="font-mono text-[9px] text-white/20 tracking-[0.3em] uppercase text-right hidden md:block leading-loose">
+          FORM_ID // 0x44B<br/>
+          STATUS // PENDING
+        </div>
+      </div>
 
-      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-        {/* Core fields */}
-        {coreLocked && existingTeam ? (
-          <>
-            <LockedField label="Team Name" value={existingTeam.teamName} />
-            <LockedField label="Team Lead Full Name" value={existingTeam.leadName} />
-            <LockedField label="Team Lead Email" value={existingTeam.leadEmail} />
-            <LockedField label="Team Lead Mobile" value={existingTeam.leadMobile} />
-            <LockedField label="GitHub Repository Link" value={existingTeam.githubLink} />
-          </>
-        ) : (
-          <>
-            <DSInput id="teamName" label="Team Name" required value={form.teamName}
-              onChange={set('teamName')} error={errors.teamName} disabled={coreMissed} />
-            <DSInput id="leadName" label="Team Lead Full Name" required value={form.leadName}
-              onChange={set('leadName')} error={errors.leadName} disabled={coreMissed} />
-            <DSInput id="leadEmail" label="Team Lead Email" type="email" required
-              value={form.leadEmail} onChange={set('leadEmail')} error={errors.leadEmail} disabled={coreMissed} />
-            <DSInput id="leadMobile" label="Team Lead Mobile" type="tel" required
-              placeholder="+91 XXXXXXXXXX" value={form.leadMobile}
-              onChange={set('leadMobile')} error={errors.leadMobile} disabled={coreMissed} />
-            <DSInput id="githubLink" label="GitHub Repository Link" type="url" required
-              value={form.githubLink} onChange={set('githubLink')} error={errors.githubLink}
-              rightIcon={<Github size={14} />}
-              note="Push incrementally throughout the hackathon"
-              disabled={coreMissed} />
-          </>
+      <div className="relative z-10">
+        {/* Core window warning */}
+        {isCoreWindowOpen && coreAlmostUp && (
+          <motion.div
+            animate={{ x: [0, -3, 3, -2, 2, 0] }}
+            transition={{ duration: 0.5, repeat: Infinity, repeatDelay: 60 }}
+            className="flex items-start gap-4 p-4 mb-8 bg-[var(--stone-reality)]/10 border border-[var(--stone-reality)]/30 backdrop-blur-sm"
+          >
+            <AlertCircle size={16} className="text-[var(--stone-reality)] shrink-0 mt-0.5" />
+            <span className="font-mono text-[10px] md:text-[11px] tracking-widest text-[var(--stone-reality)] uppercase leading-relaxed">
+              Core submission window closes in {pad(coreCountdown.minutes)}:{pad(coreCountdown.seconds)}. Immediate submission required.
+            </span>
+          </motion.div>
         )}
 
-        {/* Divider */}
-        <div style={{ position: 'relative', textAlign: 'center' }}>
-          <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center' }}>
-            <div style={{ flex: 1, height: '1px', background: 'var(--panel-border)' }} />
+        {/* Core missed warning */}
+        {coreMissed && (
+          <div className="flex flex-col gap-3 p-5 mb-8 bg-[var(--stone-reality)]/5 border border-[var(--stone-reality)]/20">
+            <div className="flex items-center gap-3">
+              <AlertTriangle size={16} className="text-[var(--stone-reality)]" />
+              <h3 className="font-display text-lg font-black tracking-widest text-[var(--stone-reality)] uppercase">
+                Core Window Missed
+              </h3>
+            </div>
+            <p className="font-mono text-[10px] tracking-widest text-white/50 uppercase leading-relaxed">
+              The 15-minute window for core team registration has closed. Contact an organizer immediately.
+            </p>
+            <div className="mt-2 pt-3 border-t border-[var(--stone-reality)]/10 font-mono text-[10px] tracking-[0.2em] text-white/40">
+              PRATYUSH // 9330096004 &nbsp;&nbsp;&nbsp; PALAS // 9073743988
+            </div>
           </div>
-          <span style={{
-            position: 'relative', background: 'var(--void-surface)', padding: '0 12px',
-            fontFamily: 'Inter, sans-serif', fontSize: '11px', color: 'var(--text-muted)',
-            letterSpacing: '0.05em', textTransform: 'uppercase',
-          }}>
-            Submit after deployment (before May 15 23:59)
-          </span>
-        </div>
+        )}
 
-        <DSInput id="liveLink" label="Live Deployment Link (optional)" type="url"
-          value={form.liveLink} onChange={set('liveLink')} rightIcon={<Globe size={14} />} />
-        <DSInput id="videoLink" label="Video Demo Link — YouTube or Drive (optional)" type="url"
-          value={form.videoLink} onChange={set('videoLink')} rightIcon={<Video size={14} />} />
+        <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+          
+          {/* Core Fields Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-6">
+            {coreLocked && existingTeam ? (
+              <>
+                <div className="md:col-span-2"><LockedField label="Team Name" value={existingTeam.teamName} /></div>
+                <LockedField label="Team Lead Full Name" value={existingTeam.leadName} />
+                <LockedField label="Team Lead Email" value={existingTeam.leadEmail} />
+                <LockedField label="Team Lead Mobile" value={existingTeam.leadMobile} />
+                <div className="md:col-span-2"><LockedField label="GitHub Repository Link" value={existingTeam.githubLink} /></div>
+              </>
+            ) : (
+              <>
+                <div className="md:col-span-2">
+                  <DSInput id="teamName" label="Team Name" required value={form.teamName} onChange={set('teamName')} error={errors.teamName} disabled={coreMissed} />
+                </div>
+                <DSInput id="leadName" label="Team Lead Full Name" required value={form.leadName} onChange={set('leadName')} error={errors.leadName} disabled={coreMissed} />
+                <DSInput id="leadEmail" label="Team Lead Email" type="email" required value={form.leadEmail} onChange={set('leadEmail')} error={errors.leadEmail} disabled={coreMissed} />
+                <DSInput id="leadMobile" label="Team Lead Mobile" type="tel" required placeholder="+91 XXXXXXXXXX" value={form.leadMobile} onChange={set('leadMobile')} error={errors.leadMobile} disabled={coreMissed} />
+                <div className="md:col-span-2">
+                  <DSInput id="githubLink" label="GitHub Repository Link" type="url" required value={form.githubLink} onChange={set('githubLink')} error={errors.githubLink} rightIcon={<Github size={14} />} note="Push incrementally throughout the hackathon" disabled={coreMissed} />
+                </div>
+              </>
+            )}
+          </div>
 
-        <Button
-          type="submit"
-          variant="primary"
-          size="lg"
-          loading={loading}
-          disabled={!isHackathonLive || (coreMissed && !existingTeam)}
-          style={{ width: '100%', justifyContent: 'center' }}
-        >
-          {loading ? 'Channeling the Stones...' : 'Submit to the Gauntlet'}
-        </Button>
-      </form>
+          {/* Divider */}
+          <div className="flex items-center gap-4 my-6 opacity-80">
+            <div className="flex-1 h-[1px] bg-[var(--accent)]/20" />
+            <span className="font-mono text-[9px] tracking-[0.3em] text-[var(--accent)] uppercase px-4 py-1 border border-[var(--accent)]/20 bg-[var(--accent)]/5">
+              Optional Deployment Intel // DUE MAY 15 23:59
+            </span>
+            <div className="flex-1 h-[1px] bg-[var(--accent)]/20" />
+          </div>
+
+          {/* Optional Fields Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-6">
+            <DSInput id="liveLink" label="Live Deployment Link (Optional)" type="url" value={form.liveLink} onChange={set('liveLink')} rightIcon={<Globe size={14} />} />
+            <DSInput id="videoLink" label="Video Demo Link (Optional)" type="url" value={form.videoLink} onChange={set('videoLink')} rightIcon={<Video size={14} />} />
+          </div>
+
+          {/* Submit Button */}
+          <div className="mt-8">
+            <button
+              type="submit"
+              disabled={!isHackathonLive || (coreMissed && !existingTeam)}
+              className="w-full relative group overflow-hidden bg-white text-[#050505] font-display font-black text-lg md:text-xl tracking-widest uppercase py-5 disabled:opacity-50 disabled:cursor-not-allowed transition-transform active:scale-[0.99] border border-transparent"
+            >
+              <div className="absolute inset-0 bg-[var(--accent)] translate-y-[100%] group-hover:translate-y-0 transition-transform duration-300 cubic-bezier(0.16, 1, 0.3, 1)" />
+              <div className="absolute inset-0 border border-[var(--accent)] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              
+              <span className="relative z-10 group-hover:text-white transition-colors duration-300 flex items-center justify-center gap-3">
+                {loading ? (
+                  <>
+                    <span className="w-4 h-4 border-2 border-[#050505] border-t-transparent group-hover:border-white group-hover:border-t-transparent rounded-full animate-spin" />
+                    Channeling...
+                  </>
+                ) : 'Submit to the Gauntlet'}
+              </span>
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   )
 }

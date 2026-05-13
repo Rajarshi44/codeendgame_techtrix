@@ -14,9 +14,13 @@ export default function DashboardPage() {
 
   useEffect(() => {
     setMounted(true)
+
+    // TEMPORARY BYPASS — Supabase not connected
+    setUserEmail('dev@example.com')
+
+    /*
     const supabase = createClient()
 
-    // Check current session
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (!session?.user?.email) {
         router.push('/')
@@ -25,7 +29,6 @@ export default function DashboardPage() {
       }
     })
 
-    // Subscribe to auth state changes (e.g. logout)
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       if (!session?.user?.email) {
         router.push('/')
@@ -35,6 +38,7 @@ export default function DashboardPage() {
     })
 
     return () => subscription.unsubscribe()
+    */
   }, [router])
 
   if (!mounted || !userEmail) {

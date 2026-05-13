@@ -10,66 +10,45 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 }
 
 const DSInput = forwardRef<HTMLInputElement, InputProps>(
-  ({ label, error, rightIcon, note, id, style, ...rest }, ref) => {
+  ({ label, error, rightIcon, note, id, className = '', ...rest }, ref) => {
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+      <div className="flex flex-col gap-2 w-full group/input">
         {label && (
           <label
             htmlFor={id}
-            style={{
-              fontFamily: 'Inter, sans-serif', fontSize: '11px', fontWeight: 500,
-              textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--text-muted)',
-            }}
+            className="font-mono text-[9px] md:text-[10px] uppercase tracking-[0.2em] text-[#ffffff]/50 flex justify-between items-center"
           >
             {label}
+            {error && <span className="text-[var(--stone-reality)] tracking-normal normal-case font-body text-xs">{error}</span>}
           </label>
         )}
-        <div style={{ position: 'relative' }}>
+        <div className="relative">
           <input
             ref={ref}
             id={id}
             aria-invalid={!!error}
-            style={{
-              width: '100%',
-              background: 'var(--void-mid)',
-              border: `1px solid ${error ? 'var(--stone-reality)' : 'var(--panel-border)'}`,
-              borderRadius: 'var(--radius-md)',
-              color: 'var(--text-primary)',
-              fontFamily: 'Inter, sans-serif',
-              fontSize: '14px',
-              padding: rightIcon ? '10px 40px 10px 14px' : '10px 14px',
-              outline: 'none',
-              transition: 'border-color var(--duration-fast) var(--ease-out), box-shadow var(--duration-fast) var(--ease-out)',
-              ...style,
-            }}
-            onFocus={e => {
-              e.currentTarget.style.borderColor = 'var(--accent)'
-              e.currentTarget.style.boxShadow = '0 0 0 3px var(--accent-dim)'
-            }}
-            onBlur={e => {
-              e.currentTarget.style.borderColor = error ? 'var(--stone-reality)' : 'var(--panel-border)'
-              e.currentTarget.style.boxShadow = ''
-            }}
+            className={`
+              w-full bg-[#050505]/80 border 
+              ${error ? 'border-[var(--stone-reality)]' : 'border-white/10 group-hover/input:border-white/30'} 
+              text-white font-mono text-sm md:text-base
+              px-4 py-3 outline-none transition-all duration-300
+              focus:bg-[#050505] focus:border-[var(--accent)] focus:shadow-[inset_4px_0_0_0_var(--accent)]
+              placeholder:text-white/20 placeholder:font-body
+              ${rightIcon ? 'pr-12' : ''}
+              disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-black/50
+              ${className}
+            `}
             {...rest}
           />
           {rightIcon && (
-            <span style={{
-              position: 'absolute', right: '12px', top: '50%',
-              transform: 'translateY(-50%)',
-              color: 'var(--text-muted)', display: 'flex', alignItems: 'center',
-            }}>
+            <span className="absolute right-4 top-1/2 -translate-y-1/2 text-white/30 group-focus-within/input:text-[var(--accent)] transition-colors">
               {rightIcon}
             </span>
           )}
         </div>
         {note && !error && (
-          <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', color: 'var(--text-muted)' }}>
+          <span className="font-mono text-[9px] text-white/40 uppercase tracking-widest border-l border-white/10 pl-2">
             {note}
-          </span>
-        )}
-        {error && (
-          <span role="alert" style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', color: 'var(--stone-reality)' }}>
-            {error}
           </span>
         )}
       </div>

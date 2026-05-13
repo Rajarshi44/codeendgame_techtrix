@@ -20,7 +20,8 @@ export default function DashboardClient({ userEmail }: { userEmail: string }) {
   return (
     <div style={{ maxWidth: '960px', margin: '0 auto', padding: '32px 24px' }}>
       <AnimatePresence mode="wait">
-        {phase === 'PRE_HACKATHON' ? (
+        {/* TEMPORARILY BYPASSED: phase === 'PRE_HACKATHON' gate */}
+        {false ? (
           <motion.div
             key="gate"
             initial={{ opacity: 0, y: 20 }}
