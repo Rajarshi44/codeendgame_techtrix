@@ -1,5 +1,6 @@
 'use client'
 
+import { useRef } from 'react'
 import dynamic from 'next/dynamic'
 import { motion } from 'framer-motion'
 
@@ -45,6 +46,7 @@ const NODES = [
 ]
 
 export default function Timeline() {
+  const containerRef = useRef<HTMLDivElement>(null);
   // Height of the visible tab when stacked
   const TAB_HEIGHT = 64; 
 
@@ -88,7 +90,11 @@ export default function Timeline() {
           </div>
 
           {/* RIGHT: File-Folder Rolodex Timeline */}
-          <div className="w-full h-[500px] lg:h-[600px] overflow-y-auto no-scrollbar relative bg-white/50 backdrop-blur-sm">
+          <div 
+            ref={containerRef}
+            data-lenis-prevent
+            className="w-full h-[500px] lg:h-[600px] overflow-y-auto no-scrollbar relative bg-white/50 backdrop-blur-sm"
+          >
             
             <style jsx>{`
               .no-scrollbar::-webkit-scrollbar {
@@ -110,7 +116,7 @@ export default function Timeline() {
                   <motion.div 
                     initial={{ opacity: 0, y: 60 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "0px 0px -50px 0px" }}
+                    viewport={{ root: containerRef, once: true, margin: "0px 0px -50px 0px" }}
                     transition={{ duration: 0.6, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
                     key={node.id} 
                     className="sticky"
