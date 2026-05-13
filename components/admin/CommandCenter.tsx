@@ -12,8 +12,7 @@ import { Search, Download, Lock } from 'lucide-react'
 import { format } from 'date-fns'
 import Button from '@/components/ui/button'
 
-export default function CommandCenter() {
-  const teams = useHackathonStore(s => s.teams)
+export default function CommandCenter({ teams }: { teams: TeamSubmission[] }) {
   const lockAdmin = useHackathonStore(s => s.lockAdmin)
   const { phase } = usePhase()
 

@@ -15,10 +15,6 @@ export default function DashboardPage() {
   useEffect(() => {
     setMounted(true)
 
-    // TEMPORARY BYPASS — Supabase not connected
-    setUserEmail('dev@example.com')
-
-    /*
     const supabase = createClient()
 
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -38,7 +34,6 @@ export default function DashboardPage() {
     })
 
     return () => subscription.unsubscribe()
-    */
   }, [router])
 
   if (!mounted || !userEmail) {

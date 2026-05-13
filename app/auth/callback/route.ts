@@ -1,8 +1,7 @@
 import { NextResponse } from 'next/server'
 import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { cookies } from 'next/headers'
-
-const EVENT_ID = '23e45f0c-c0a7-4b72-86df-7d9bfb4882aa'
+import { EVENT_ID } from '@/lib/constants'
 
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url)

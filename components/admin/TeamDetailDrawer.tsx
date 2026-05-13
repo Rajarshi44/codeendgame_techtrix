@@ -139,7 +139,7 @@ export default function TeamDetailDrawer({ team, onClose }: TeamDetailDrawerProp
                 fontFamily: 'Inter, sans-serif', fontSize: '9px',
                 color: 'var(--text-muted)', fontStyle: 'italic', marginTop: '24px',
               }}>
-                DATA SOURCE: Client Store (Zustand + localStorage)
+                DATA SOURCE: Supabase (service-role server fetch)
               </p>
             </div>
           </motion.div>

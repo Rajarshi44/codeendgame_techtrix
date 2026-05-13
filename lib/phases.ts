@@ -1,13 +1,15 @@
 // lib/phases.ts
 import { Phase } from '@/types'
 
+// Single source of truth — MUST match SQL constants in submissions schema.
+// Submission window: 2026-05-14 00:01 IST → 2026-05-15 23:59 IST
 export const PHASE_WINDOWS = {
-  REGISTRATION_CLOSE: new Date('2026-05-09T23:59:59+05:30'),
-  HACKATHON_START:    new Date('2026-05-10T00:01:00+05:30'), // Today
-  CORE_WINDOW_END:    new Date('2026-05-10T23:59:00+05:30'), // End of today
-  HACKATHON_END:      new Date('2026-05-12T23:59:59+05:30'), // Two days from now
-  RESULTS_TIME:       new Date('2026-05-14T18:00:00+05:30'),
-  FINALE_START:       new Date('2026-05-15T10:30:00+05:30'),
+  REGISTRATION_CLOSE: new Date('2026-05-13T23:59:59+05:30'),
+  HACKATHON_START:    new Date('2026-05-14T00:01:00+05:30'),
+  CORE_WINDOW_END:    new Date('2026-05-14T00:16:00+05:30'), // 15-min core lock window
+  HACKATHON_END:      new Date('2026-05-15T23:59:00+05:30'),
+  RESULTS_TIME:       new Date('2026-05-16T18:00:00+05:30'),
+  FINALE_START:       new Date('2026-05-17T10:30:00+05:30'),
 }
 
 export function getCurrentPhase(now: Date): Phase {

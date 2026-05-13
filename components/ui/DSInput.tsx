@@ -7,10 +7,11 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   error?: string
   rightIcon?: React.ReactNode
   note?: string
+  highlight?: boolean
 }
 
 const DSInput = forwardRef<HTMLInputElement, InputProps>(
-  ({ label, error, rightIcon, note, id, className = '', ...rest }, ref) => {
+  ({ label, error, rightIcon, note, id, className = '', highlight, ...rest }, ref) => {
     return (
       <div className="flex flex-col gap-2 w-full group/input">
         {label && (
@@ -28,8 +29,12 @@ const DSInput = forwardRef<HTMLInputElement, InputProps>(
             id={id}
             aria-invalid={!!error}
             className={`
-              w-full bg-[#050505]/80 border 
-              ${error ? 'border-[var(--stone-reality)]' : 'border-white/10 group-hover/input:border-white/30'} 
+              w-full bg-[#050505]/80 border
+              ${error
+                ? 'border-[var(--stone-reality)]'
+                : highlight
+                  ? 'border-[#c0c0c0]/70 shadow-[0_0_14px_rgba(192,192,192,0.25)] group-hover/input:border-[#c0c0c0]'
+                  : 'border-white/10 group-hover/input:border-white/30'}
               text-white font-mono text-sm md:text-base
               px-4 py-3 outline-none transition-all duration-300
               focus:bg-[#050505] focus:border-[var(--accent)] focus:shadow-[inset_4px_0_0_0_var(--accent)]
