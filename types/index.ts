@@ -38,15 +38,23 @@ export interface Submission {
   status: SubmissionStatus
 }
 
+export interface Participant {
+  email: string
+  name?: string | null
+  phone?: string | null
+}
+
 // Kept for admin UI compatibility (maps from Submission).
 export interface TeamSubmission extends CoreFields {
   id: string
+  teamId: string
   liveLink?: string
   videoLink?: string
   coreSubmittedAt: string | null
   lastUpdatedAt: string
   isCoreLocked: boolean
   status: SubmissionStatus
+  participants: Participant[]
 }
 
 export interface CountdownValues {

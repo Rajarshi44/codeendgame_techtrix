@@ -3,10 +3,7 @@ import { persist, createJSONStorage } from 'zustand/middleware'
 
 // Client-only UI state. Source-of-truth for submissions = Supabase (RPC).
 interface HackathonStore {
-  adminUnlocked: boolean
   currentUserEmail: string | null
-  unlockAdmin: () => void
-  lockAdmin: () => void
   login: (email: string) => void
   logout: () => void
 }
@@ -14,10 +11,7 @@ interface HackathonStore {
 export const useHackathonStore = create<HackathonStore>()(
   persist(
     (set) => ({
-      adminUnlocked: false,
       currentUserEmail: null,
-      unlockAdmin: () => set({ adminUnlocked: true }),
-      lockAdmin: () => set({ adminUnlocked: false }),
       login: (email: string) => set({ currentUserEmail: email }),
       logout: () => set({ currentUserEmail: null }),
     }),

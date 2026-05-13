@@ -1,19 +1,25 @@
 'use client'
 
 import { useState } from 'react'
-import { useHackathonStore } from '@/store/useHackathonStore'
+import { useRouter } from 'next/navigation'
 import { usePhase } from '@/hooks/usePhase'
 import { TeamSubmission } from '@/types'
+import { createClient } from '@/lib/supabase'
 import TechtrixLogo from '@/components/ui/TechtrixLogo'
 import TeamTable from './TeamTable'
 import TeamDetailDrawer from './TeamDetailDrawer'
 import DSBadge from '@/components/ui/DSBadge'
-import { Search, Download, Lock } from 'lucide-react'
+import { Search, Download, LogOut } from 'lucide-react'
 import { format } from 'date-fns'
 import Button from '@/components/ui/button'
 
 export default function CommandCenter({ teams }: { teams: TeamSubmission[] }) {
-  const lockAdmin = useHackathonStore(s => s.lockAdmin)
+  const router = useRouter()
+  const handleSignOut = async () => {
+    const supabase = createClient()
+    await supabase.auth.signOut()
+    router.refresh()
+  }
   const { phase } = usePhase()
 
   const [search, setSearch] = useState('')
@@ -88,8 +94,8 @@ export default function CommandCenter({ teams }: { teams: TeamSubmission[] }) {
         </div>
 
         <button
-          aria-label="Lock terminal"
-          onClick={lockAdmin}
+          aria-label="Sign out"
+          onClick={handleSignOut}
           style={{
             background: 'none', border: '1px solid var(--panel-border)',
             borderRadius: 'var(--radius-md)', padding: '6px 12px',
@@ -101,7 +107,7 @@ export default function CommandCenter({ teams }: { teams: TeamSubmission[] }) {
           onMouseEnter={e => { e.currentTarget.style.color = 'var(--stone-reality)'; e.currentTarget.style.borderColor = 'var(--stone-reality)' }}
           onMouseLeave={e => { e.currentTarget.style.color = 'var(--text-muted)'; e.currentTarget.style.borderColor = 'var(--panel-border)' }}
         >
-          <Lock size={12} /> Lock Terminal
+          <LogOut size={12} /> Sign Out
         </button>
       </div>
 

@@ -124,6 +124,63 @@ export default function TeamDetailDrawer({ team, onClose }: TeamDetailDrawerProp
 
               <div style={{ borderTop: '1px solid var(--panel-border)', margin: '20px 0' }} />
 
+              <p style={{
+                fontFamily: 'Inter, sans-serif', fontSize: '11px',
+                color: 'var(--text-muted)', textTransform: 'uppercase',
+                letterSpacing: '0.1em', marginBottom: '12px',
+              }}>
+                Participants ({team.participants.length})
+              </p>
+              {team.participants.length === 0 ? (
+                <p style={{
+                  fontFamily: 'Inter, sans-serif', fontSize: '13px',
+                  color: 'var(--text-muted)', marginBottom: '16px',
+                }}>
+                  No participants found for this team.
+                </p>
+              ) : (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '16px' }}>
+                  {team.participants.map((p, i) => {
+                    const isLead = p.email.toLowerCase() === team.leadEmail.toLowerCase()
+                    return (
+                      <div key={p.email + i} style={{
+                        border: '1px solid var(--panel-border)',
+                        borderRadius: 'var(--radius-sm)',
+                        padding: '10px 12px',
+                        background: 'var(--void-mid)',
+                      }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+                          <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '13px', fontWeight: 600, color: 'var(--text-primary)' }}>
+                            {p.name || '(no name)'}
+                          </span>
+                          {isLead && (
+                            <span style={{
+                              fontFamily: 'JetBrains Mono, monospace', fontSize: '9px',
+                              letterSpacing: '0.12em', textTransform: 'uppercase',
+                              color: 'var(--stone-power)',
+                              border: '1px solid var(--stone-power)',
+                              padding: '1px 6px', borderRadius: '4px',
+                            }}>
+                              Lead
+                            </span>
+                          )}
+                        </div>
+                        <p style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '11px', color: 'var(--text-secondary)', wordBreak: 'break-all', marginBottom: '2px' }}>
+                          {p.email}
+                        </p>
+                        {p.phone && (
+                          <p style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '11px', color: 'var(--text-muted)' }}>
+                            {p.phone}
+                          </p>
+                        )}
+                      </div>
+                    )
+                  })}
+                </div>
+              )}
+
+              <div style={{ borderTop: '1px solid var(--panel-border)', margin: '20px 0' }} />
+
               <CopyableLink href={team.githubLink} label="GitHub Repository" />
               <CopyableLink href={team.liveLink} label="Live Deployment" />
               <CopyableLink href={team.videoLink} label="Video Demo" />

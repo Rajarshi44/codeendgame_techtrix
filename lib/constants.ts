@@ -46,11 +46,12 @@ export const JUDGING_CRITERIA = [
   { label: 'Presentation & Demo',        weight: 15, stone: 'soul' },
 ]
 
-export const ADMIN_PIN = 'ENDGAME2026'
-
-// Server-side gate. Only these emails can load /admin (in addition to the PIN UX gate).
+// Server-side gate. Only these emails can load /admin.
 export const ADMIN_EMAILS = [
   'cse2023204@rcciit.org.in',
+  'mrajarshi570@gmail.com',
+  'debajitpal.380718@gmail.com',
+  'cseai2024001@rcciit.org.in'
 ].map(e => e.toLowerCase())
 
 export const STONE_CSS_VARS: Record<string, string> = {
