@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import { redirect } from 'next/navigation'
 import AdminClient from './AdminClient'
 import { createAdminSupabaseClient } from '@/lib/supabase-admin'
@@ -8,9 +9,6 @@ import { TeamSubmission } from '@/types'
 export const metadata = {
   title: 'Command Center — CODE ENDGAME · TECHTRIX 2026',
 }
-
-export const dynamic = 'force-dynamic'
-export const revalidate = 0
 
 interface SubmissionRow {
   id: string
@@ -25,15 +23,6 @@ interface SubmissionRow {
   core_submitted_at: string
   last_updated_at: string
   status: 'pending' | 'partial' | 'complete'
-}
-
-async function assertAdmin(): Promise<void> {
-  const supabase = await createServerSupabaseClient()
-  const { data: { session } } = await supabase.auth.getSession()
-  const email = session?.user?.email
-  if (!email || !ADMIN_EMAILS.includes(email.toLowerCase())) {
-    redirect('/')
-  }
 }
 
 async function fetchSubmissions(): Promise<TeamSubmission[]> {
@@ -69,8 +58,29 @@ async function fetchSubmissions(): Promise<TeamSubmission[]> {
   }
 }
 
-export default async function AdminPage() {
-  await assertAdmin()
+async function AdminGate() {
+  const supabase = await createServerSupabaseClient()
+  const { data: { session } } = await supabase.auth.getSession()
+  const email = session?.user?.email?.toLowerCase()
+  if (!email || !ADMIN_EMAILS.includes(email)) {
+    redirect('/')
+  }
   const teams = await fetchSubmissions()
   return <AdminClient initialTeams={teams} />
+}
+
+function AdminFallback() {
+  return (
+    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-muted)', fontFamily: 'JetBrains Mono, monospace', fontSize: 12, letterSpacing: '0.3em', textTransform: 'uppercase' }}>
+      Loading command center…
+    </div>
+  )
+}
+
+export default function AdminPage() {
+  return (
+    <Suspense fallback={<AdminFallback />}>
+      <AdminGate />
+    </Suspense>
+  )
 }
