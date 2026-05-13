@@ -4,6 +4,7 @@ import { usePhase } from '@/hooks/usePhase'
 import PreHackathonGate from '@/components/dashboard/PreHackathonGate'
 import TeamForm from '@/components/dashboard/TeamForm'
 import SubmissionStatus from '@/components/dashboard/SubmissionStatus'
+import ProblemStatementCard from '@/components/dashboard/ProblemStatementCard'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useEffect, useState } from 'react'
 
@@ -17,11 +18,12 @@ export default function DashboardClient({ userEmail }: { userEmail: string }) {
 
   if (!mounted) return null
 
+  const showPreGate = phase === 'PRE_HACKATHON'
+
   return (
     <div style={{ maxWidth: '960px', margin: '0 auto', padding: '32px 24px' }}>
       <AnimatePresence mode="wait">
-        {/* TEMPORARILY BYPASSED: phase === 'PRE_HACKATHON' gate */}
-        {false ? (
+        {showPreGate ? (
           <motion.div
             key="gate"
             initial={{ opacity: 0, y: 20 }}
@@ -45,7 +47,6 @@ export default function DashboardClient({ userEmail }: { userEmail: string }) {
               alignItems: 'start',
             }}
           >
-            {/* Desktop layout: 1fr 320px, Mobile: 1fr */}
             <style>{`
               @media (min-width: 800px) {
                 #team-grid { grid-template-columns: 1fr 320px !important; }
@@ -55,6 +56,7 @@ export default function DashboardClient({ userEmail }: { userEmail: string }) {
               <TeamForm userEmail={userEmail} />
               <div style={{ position: 'relative' }}>
                 <SubmissionStatus userEmail={userEmail} />
+                <ProblemStatementCard />
               </div>
             </div>
           </motion.div>

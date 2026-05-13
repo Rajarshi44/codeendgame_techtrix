@@ -2,7 +2,7 @@
   <img alt="Next.js and Supabase Starter Kit - the fastest way to build apps with Next.js and Supabase" src="https://demo-nextjs-with-supabase.vercel.app/opengraph-image.png">
   <h1 align="center">Next.js and Supabase Starter Kit</h1>
 </a>
-
+guyyyyyyyyyyyyyyyyyssssssssssssssssssss
 <p align="center">
  The fastest way to build apps with Next.js and Supabase
 </p>
@@ -17,6 +17,8 @@
 </p>
 <br/>
 
+
+hellloooooo boyy
 ## Features
 
 - Works across the entire [Next.js](https://nextjs.org) stack
@@ -54,7 +56,7 @@ If you wish to just develop locally and not deploy to Vercel, [follow the steps 
 1. You'll first need a Supabase project which can be made [via the Supabase dashboard](https://database.new)
 
 2. Create a Next.js app using the Supabase Starter template npx command
-
+ hello boy he he he 
    ```bash
    npx create-next-app --example with-supabase with-supabase-app
    ```
