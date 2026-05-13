@@ -6,7 +6,7 @@ import { Phase } from '@/types'
 export const PHASE_WINDOWS = {
   REGISTRATION_CLOSE: new Date('2026-05-13T23:59:59+05:30'),
   HACKATHON_START:    new Date('2026-05-14T00:01:00+05:30'),
-  CORE_WINDOW_END:    new Date('2026-05-14T00:16:00+05:30'), // 15-min core lock window
+  CORE_WINDOW_END:    new Date('2026-05-14T02:16:00+05:30'), // 2h 15min core lock window
   HACKATHON_END:      new Date('2026-05-15T23:59:00+05:30'),
   RESULTS_TIME:       new Date('2026-05-16T18:00:00+05:30'),
   FINALE_START:       new Date('2026-05-17T10:30:00+05:30'),
