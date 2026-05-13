@@ -83,6 +83,23 @@ export default function ProblemStatements() {
         'LLMs should not be used to take any trading decisions, can be used as an additional input source to the algorithm or be the one suggesting/implementing/backtesting.',
         'Strategies must run on timescales a human day trader plausibly uses (1-min to 4-hour candles), with entry/exit windows that respect real market session constraints.'
       ]
+    },
+    {
+      id: 'OP-05',
+      title: 'Open Innovation',
+      track: 'Open Innovation',
+      difficulty: 'Any',
+      background: 'Got a revolutionary idea that doesn\'t fit neatly into the predefined tracks? The Open Innovation track is your sandbox. Whether it\'s a decentralized app, a novel IoT solution, an accessibility tool, or an entirely new paradigm of human-computer interaction, this is where you build it. If it solves a real problem, pushes technical boundaries, and creates impact, we want to see it.',
+      core_requirements: [
+        'Real-world impact: The project must clearly articulate and solve a genuine, recognizable problem or create a significant new opportunity.',
+        'Technical ambition: The solution should demonstrate technical depth, creativity, and robust engineering practices.',
+        'Working prototype: A functional MVP or prototype must be presented — conceptual pitches without working code will not be evaluated.'
+      ],
+      examples: null,
+      constraints: [
+        'Must not be a minor variation of an existing product without significant innovation.',
+        'Must be original work developed during the hackathon timeframe.'
+      ]
     }
   ]
 
@@ -110,7 +127,7 @@ export default function ProblemStatements() {
               Mission <br/> Targets
             </h2>
             <p className="font-body text-base lg:text-lg text-[var(--text-secondary)] leading-relaxed border-l-4 border-[var(--accent)] pl-5 max-w-md mb-8">
-              Four anomalous subsystems detected. Select an objective to expand the tactical requirements. 
+              Five anomalous subsystems detected. Select an objective to expand the tactical requirements. 
               Exact adherence to constraints is mandatory.
             </p>
 
