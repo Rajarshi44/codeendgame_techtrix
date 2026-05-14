@@ -1,7 +1,9 @@
 'use client'
 
 import { useRef, useState, useEffect } from 'react'
-import SpiderModel from './SpiderModel'
+import dynamic from 'next/dynamic'
+
+const SpiderModel = dynamic(() => import('./SpiderModel'), { ssr: false })
 
 interface HeroSectionProps {
   onAssemble: () => void

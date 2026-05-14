@@ -2,8 +2,10 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from 'framer-motion'
-import SpiderGwenModel from './SpiderGwenModel'
+import dynamic from 'next/dynamic'
 import TechtrixLogo from '@/components/ui/TechtrixLogo'
+
+const SpiderGwenModel = dynamic(() => import('./SpiderGwenModel'), { ssr: false })
 import GridScan from './GridScan'
 
 interface IntroScreenProps {

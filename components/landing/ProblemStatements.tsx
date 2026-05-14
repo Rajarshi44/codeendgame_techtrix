@@ -1,7 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import ThanosModel from './ThanosModel'
+import dynamic from 'next/dynamic'
+
+const ThanosModel = dynamic(() => import('./ThanosModel'), { ssr: false })
 
 export default function ProblemStatements() {
   const [activeId, setActiveId] = useState<string | null>('OP-01')
