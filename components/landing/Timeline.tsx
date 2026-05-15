@@ -19,10 +19,10 @@ const NODES = [
   {
     id: 'T-02',
     seq: '02',
-    date: '14 – 15 MAY',
-    time: '48 HRS',
+    date: '14 – 16 MAY',
+    time: '54 HRS',
     title: 'THE CRUCIBLE',
-    subtitle: 'Online hackathon. 48 uninterrupted hours to architect, build, and deploy.',
+    subtitle: 'Online hackathon. 54 uninterrupted hours to architect, build, and deploy.',
     status: 'ACTIVE',
   },
   {

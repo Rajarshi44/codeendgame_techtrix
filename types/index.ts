@@ -79,7 +79,7 @@ export const SUBMISSION_ERROR_COPY: Record<string, string> = {
   unauthenticated:            'Sign in required.',
   not_paid_or_unregistered:   'Your team payment is not verified. Contact an organizer.',
   window_not_open:            'Submission window opens 14 May, 00:01 IST.',
-  window_closed:              'Submission window closed 15 May, 23:59 IST.',
+  window_closed:              'Submission window closed 16 May, 06:00 IST.',
   no_submission:              'No submission to lock yet.',
   team_name_required:         'Team name is required.',
   lead_name_required:         'Lead name is required.',
