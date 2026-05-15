@@ -52,11 +52,11 @@ const RULES = [
             <div className="relative pt-12">
               <div className="absolute top-0 left-0 w-12 h-12 bg-white rounded-full border border-[#050505]/10 shadow-[0_10px_30px_rgba(0,0,0,0.05)] flex items-center justify-center font-display font-black text-xl text-[#050505]">1</div>
               <h4 className="font-display text-3xl lg:text-4xl font-black tracking-tighter text-[#050505] mb-4">THE SPRINT</h4>
-              <div className="inline-block px-3 py-1.5 bg-[#050505] text-white font-mono text-[10px] tracking-widest mb-4">48-HOUR REMOTE</div>
+              <div className="inline-block px-3 py-1.5 bg-[#050505] text-white font-mono text-[10px] tracking-widest mb-4">54-HOUR REMOTE</div>
               <p className="font-sans text-sm text-[#050505]/60 leading-relaxed mb-4 lg:pr-4">
                 Asynchronous development phase. Teams architect and build their core prototypes.
               </p>
-              <div className="font-mono text-[9px] tracking-[0.2em] text-[#050505]/40 uppercase">May 14, 12:01 AM — May 15, 11:59 PM</div>
+              <div className="font-mono text-[9px] tracking-[0.2em] text-[#050505]/40 uppercase">May 14, 12:01 AM — May 16, 6:00 AM</div>
             </div>
 
             {/* Phase 2 */}

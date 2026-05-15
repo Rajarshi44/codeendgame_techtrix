@@ -39,7 +39,7 @@ export default function EventDetails() {
 
               {/* Massive Duration Display */}
               <div className="flex items-baseline gap-3 mb-2">
-                <span className="font-display text-[clamp(5rem,10vw,9rem)] leading-none tracking-tighter">56</span>
+                <span className="font-display text-[clamp(5rem,10vw,9rem)] leading-none tracking-tighter">62</span>
                 <span className="font-mono text-sm tracking-widest text-[var(--text-muted)] self-end pb-4">HRS<br/>TOTAL</span>
               </div>
 
@@ -47,7 +47,7 @@ export default function EventDetails() {
               <div className="flex gap-[2px] mt-6">
                 <div className="flex-[6] bg-[var(--text-primary)] text-[var(--void)] p-4 relative">
                   <div className="font-mono text-[10px] tracking-widest opacity-60 mb-1">PHASE 01 — ONLINE</div>
-                  <div className="font-display text-2xl md:text-3xl">48H</div>
+                  <div className="font-display text-2xl md:text-3xl">54H</div>
                   <div className="absolute top-2 right-3 font-mono text-[9px] tracking-widest text-[var(--accent)] flex items-center gap-1">
                     <span className="w-1.5 h-1.5 bg-[var(--accent)] rounded-full animate-pulse"></span> LIVE
                   </div>
@@ -75,7 +75,7 @@ export default function EventDetails() {
                 ABSOLUTE<br/>WARFARE
               </h3>
               <p className="font-body text-base text-[var(--text-secondary)] leading-relaxed bg-white/80 p-4 border-l-4 border-[var(--text-primary)] backdrop-blur-sm">
-                A 48-hour online crucible followed by an 8-hour offline grand finale at RCCIIT. 
+                A 54-hour online crucible followed by an 8-hour offline grand finale at RCCIIT. 
                 No track restrictions. Absolute freedom to architect solutions for any critical real-world vulnerability.
               </p>
             </div>

@@ -184,7 +184,9 @@ export default function TeamForm({ userEmail }: { userEmail?: string }) {
           <p className="font-mono text-[10px] md:text-[11px] text-white/40 tracking-[0.2em] uppercase max-w-md leading-relaxed border-l-2 border-[var(--accent)]/50 pl-3">
             {stage === 'level0'
               ? 'Repository broadcast confirmed. Lock the deployment intel before the gauntlet closes.'
-              : 'Registration dossier pulled from S.H.I.E.L.D. archives. Submit your repo to clear Level 0.'}
+              : isCoreWindowOpen 
+                ? 'Registration dossier pulled from S.H.I.E.L.D. archives. Submit your repo to clear Level 0.'
+                : 'Core window closed. Level 0 clearance no longer available.'}
           </p>
         </div>
         <div className="font-mono text-[9px] text-white/20 tracking-[0.3em] uppercase text-right hidden md:block leading-loose">
@@ -211,13 +213,13 @@ export default function TeamForm({ userEmail }: { userEmail?: string }) {
 
           {stage === 'level0'
             ? <Level0PassedHeader teamName={form.teamName || submission?.teamName || ''} />
-            : <PrelaunchDossier prefill={prefill} loading={prefillLoading} form={form} errors={errors} setGithub={set('githubLink')} />
+            : <PrelaunchDossier prefill={prefill} loading={prefillLoading} form={form} errors={errors} setGithub={set('githubLink')} isCoreWindowOpen={isCoreWindowOpen} />
           }
 
           <div className="flex items-center gap-4 my-6 opacity-80">
             <div className="flex-1 h-[1px] bg-[var(--accent)]/20" />
             <span className="font-mono text-[9px] tracking-[0.3em] text-[var(--accent)] uppercase px-4 py-1 border border-[var(--accent)]/20 bg-[var(--accent)]/5">
-              Deployment Intel // VIDEO DUE MAY 15 23:59
+              Deployment Intel // VIDEO DUE MAY 16 06:00
             </span>
             <div className="flex-1 h-[1px] bg-[var(--accent)]/20" />
           </div>
@@ -253,13 +255,14 @@ export default function TeamForm({ userEmail }: { userEmail?: string }) {
 }
 
 function PrelaunchDossier({
-  prefill, loading, form, errors, setGithub,
+  prefill, loading, form, errors, setGithub, isCoreWindowOpen,
 }: {
   prefill: TeamPrefill | null
   loading: boolean
   form: FormData
   errors: Partial<FormData>
   setGithub: (e: React.ChangeEvent<HTMLInputElement>) => void
+  isCoreWindowOpen: boolean
 }) {
   const hasPrefill = !!prefill || !!form.teamName
   return (
@@ -305,8 +308,9 @@ function PrelaunchDossier({
           onChange={setGithub}
           error={errors.githubLink}
           rightIcon={<Github size={14} />}
-          note="Push incrementally throughout the hackathon"
-          highlight={!form.githubLink}
+          note={isCoreWindowOpen ? "Push incrementally throughout the hackathon" : "Core window ended. Repository locked."}
+          highlight={!form.githubLink && isCoreWindowOpen}
+          disabled={!isCoreWindowOpen}
         />
       </div>
     </div>
