@@ -53,6 +53,8 @@ export const ADMIN_EMAILS = [
   'debajitpal.380718@gmail.com',
   'cseai2024001@rcciit.org.in',
   'cse2023b03@rcciit.org.in',
+  'Swaps.b003@gmail.com',
+  'swaps.b003@gmail.com',
 ].map(e => e.toLowerCase())
 
 export const STONE_CSS_VARS: Record<string, string> = {
